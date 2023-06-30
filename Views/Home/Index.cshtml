@@ -1,0 +1,37 @@
+﻿@model List<Project>
+
+@{
+    ViewData["Title"] = "Проекты";
+}
+
+<header>
+    <!-- Навигационное меню -->
+    <nav>
+        <ul>
+            <li><a href="/">Главная</a></li>
+            <li><a href="/Projects">Проекты</a></li>
+            <li><a href="/Services">Услуги</a></li>
+            <li><a href="/Blogs">Блог</a></li>
+            <li><a href="/Contacts">Контакты</a></li>
+        </ul>
+    </nav>
+</header>
+
+<section>
+    <!-- Карточки проектов -->
+    <div>
+        @foreach (var project in Model)
+        {
+            <div>
+                <h2>@project.Title</h2>
+                <img src="@project.ImageUrl" alt="@project.Title">
+                <p>@project.Description</p>
+                <a href="/Projects/Details/@project.ID">Подробнее</a>
+            </div>
+        }
+    </div>
+</section>
+
+<footer>
+    <!-- Нижняя часть страницы -->
+</footer>

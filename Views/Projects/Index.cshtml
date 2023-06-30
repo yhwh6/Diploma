@@ -1,0 +1,35 @@
+﻿@model List<Project>
+
+@{
+    ViewData["Title"] = "Projects";
+}
+
+<header>
+    <!-- Navigation menu -->
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/Projects">Projects</a></li>
+            <li><a href="/Services">Services</a></li>
+            <li><a href="/Blog">Blog</a></li>
+            <li><a href="/Contact">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<section>
+    <!-- Project cards -->
+    <div>
+        @foreach (var project in Model)
+        {
+            <div>
+                <h2>@project.Title</h2>
+                <img src="@project.ImageUrl" alt="@project.Title">
+            </div>
+        }
+    </div>
+</section>
+
+<footer>
+    <!-- Footer content -->
+</footer>
