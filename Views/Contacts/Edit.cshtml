@@ -1,0 +1,21 @@
+﻿@model Diploma.Models.Contact
+
+<h1>Редактирование контакта</h1>
+
+<form asp-controller="Contact" asp-action="Edit" method="post">
+    <input type="hidden" asp-for="ID" />
+
+    <div>
+        <label asp-for="Address">Address:</label>
+        <input asp-for="Address" />
+    </div>
+    <div>
+        <label asp-for="Phone">Phone:</label>
+        <input asp-for="Phone" />
+    </div>
+    <div>
+        <label asp-for="Email">Email:</label>
+        <input asp-for="Email" />
+    </div>
+    <button type="submit">Сохранить</button>
+</form>

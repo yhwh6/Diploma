@@ -1,0 +1,19 @@
+﻿@model Diploma.Models.Contact
+
+<h1>Создание контакта</h1>
+
+<form asp-controller="Contact" asp-action="Create" method="post">
+    <div>
+        <label asp-for="Address">Address:</label>
+        <input asp-for="Address" />
+    </div>
+    <div>
+        <label asp-for="Phone">Phone:</label>
+        <input asp-for="Phone" />
+    </div>
+    <div>
+        <label asp-for="Email">Email:</label>
+        <input asp-for="Email" />
+    </div>
+    <button type="submit">Создать</button>
+</form>

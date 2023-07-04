@@ -4,15 +4,24 @@
 
 <div>
     <h3>Address:</h3>
-    <p>Швейца́рская Конфедера́ция, Бёрн</p>
+    <p>@Model.Address</p>
 </div>
 
 <div>
     <h3>Phone:</h3>
-    <p>+41 44 11 444</p>
+    <p>@Model.Phone</p>
 </div>
 
 <div>
     <h3>Email:</h3>
-    <p>swiss@swiss.com</p>
+    <p>@Model.Email</p>
 </div>
+
+@{
+    if (User.IsInRole("Administrator"))
+    {
+        <div>
+            <a asp-controller="Contact" asp-action="Create">Добавить контакт</a>
+        </div>
+    }
+}
