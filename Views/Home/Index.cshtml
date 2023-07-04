@@ -1,4 +1,4 @@
-﻿@model List<Project>
+﻿@model Diploma.Models.HomeViewModel
 
 @{
     ViewData["Title"] = "Проекты";
@@ -20,7 +20,7 @@
 <section>
     <!-- Карточки проектов -->
     <div>
-        @foreach (var project in Model)
+        @foreach (var project in Model.Projects)
         {
             <div>
                 <h2>@project.Title</h2>
