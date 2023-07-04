@@ -47,7 +47,7 @@ namespace Diploma.Controllers
         // POST: Projects/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Title,Description,ImageUrl")] Project project)
+        public async Task<IActionResult> Create([Bind("ID,Title,Description,ImageUrl")] Project project)
         {
             if (ModelState.IsValid)
             {
