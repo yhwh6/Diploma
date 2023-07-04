@@ -18,7 +18,7 @@ namespace Diploma.Controllers
             var project = _context.Projects.FirstOrDefault();
             var services = _context.Services.ToList();
             var blogs = _context.Blogs.ToList();
-            var contacts = _context.Users.FirstOrDefault();
+            var contacts = _context.Contacts.FirstOrDefault();
 
             // Передача данных в представление
             var viewModel = new HomeViewModel
