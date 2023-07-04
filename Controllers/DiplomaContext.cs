@@ -23,8 +23,8 @@ namespace Diploma.Models
                 new User
                 {
                     ID = 1,
-                    Username = "test",
-                    Password = "test",
+                    Username = "admin",
+                    Password = "admin",
                     Role = "Administrator"
                 });
         }

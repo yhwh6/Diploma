@@ -1,37 +1,113 @@
 ﻿@model Diploma.Models.HomeViewModel
 
-@{
-    ViewData["Title"] = "Проекты";
-}
-
-<header>
-    <!-- Навигационное меню -->
-    <nav>
-        <ul>
-            <li><a href="/">Главная</a></li>
-            <li><a href="/Projects">Проекты</a></li>
-            <li><a href="/Services">Услуги</a></li>
-            <li><a href="/Blogs">Блог</a></li>
-            <li><a href="/Contacts">Контакты</a></li>
-        </ul>
-    </nav>
-</header>
-
-<section>
-    <!-- Карточки проектов -->
-    <div>
-        @foreach (var project in Model.Projects)
-        {
-            <div>
-                <h2>@project.Title</h2>
-                <img src="@project.ImageUrl" alt="@project.Title">
-                <p>@project.Description</p>
-                <a href="/Projects/Details/@project.ID">Подробнее</a>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Project</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">My Project</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Главная</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Проекты</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Услуги</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Блог</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Контакты</a>
+                    </li>
+                </ul>
             </div>
-        }
-    </div>
-</section>
+            <div class="header-description">
+                @Model.Quotes[new Random().Next(Model.Quotes.Count)].Text
+            </div>
+        </nav>
+    </header>
 
-<footer>
-    <!-- Нижняя часть страницы -->
-</footer>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Услуги</h2>
+                    <div class="row">
+                        @foreach (var service in Model.Services)
+                        {
+                            <div class="col-md-4">
+                                <h4>@service.Title</h4>
+                                <p>@service.Description</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Форма заявки</h2>
+                    <form method="post" action="/Home/SubmitApplication">
+                        <div class="form-group">
+                            <label for="name">Имя</label>
+                            <input type="text" class="form-control" id="name" name="Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email" name="Email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Сообщение</label>
+                            <textarea class="form-control" id="message" name="Message" rows="3" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" id="submitBtn" disabled>Отправить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <p>Все права защищены</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script>
+        // Включение кнопки отправки формы при заполнении всех полей
+        $(document).ready(function () {
+            $('input, textarea').keyup(function () {
+                var formValid = true;
+                $('input, textarea').each(function () {
+                    if ($(this).val() === '') {
+                        formValid = false;
+                        return false;
+                    }
+                });
+                $('#submitBtn').prop('disabled', !formValid);
+            });
+        });
+    </script>
+</body>
+</html>
