@@ -4,11 +4,11 @@ using Diploma.Models;
 
 namespace Diploma.Controllers
 {
-    public class ContactController : Controller
+    public class ContactsController : Controller
     {
         private readonly DiplomaContext _context;
 
-        public ContactController(DiplomaContext context)
+        public ContactsController(DiplomaContext context)
         {
             _context = context;
         }

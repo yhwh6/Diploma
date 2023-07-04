@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Diploma.Models;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Diploma.Models;
+using System.Threading.Tasks;
 
 namespace Diploma.Controllers
 {
@@ -16,8 +18,8 @@ namespace Diploma.Controllers
         // GET: Blogs
         public async Task<IActionResult> Index()
         {
-            var blog = await _context.Blogs.ToListAsync();
-            return View(blog);
+            var blogs = await _context.Blogs.ToListAsync();
+            return View(blogs);
         }
 
         // GET: Blogs/Details/5
@@ -28,17 +30,18 @@ namespace Diploma.Controllers
                 return NotFound();
             }
 
-            var blogPost = await _context.Blogs.FirstOrDefaultAsync(m => m.ID == id);
+            var blog = await _context.Blogs.FirstOrDefaultAsync(m => m.ID == id);
 
-            if (blogPost == null)
+            if (blog == null)
             {
                 return NotFound();
             }
 
-            return View(blogPost);
+            return View(blog);
         }
 
         // GET: Blogs/Create
+        [Authorize(Roles = "Administrator")]
         public IActionResult Create()
         {
             return View();
@@ -47,19 +50,21 @@ namespace Diploma.Controllers
         // POST: Blogs/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Title,Content")] Blog blogPost)
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> Create([Bind("Title,Description")] Blog blog)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(blogPost);
+                _context.Add(blog);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(blogPost);
+            return View(blog);
         }
 
         // GET: Blogs/Edit/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -67,22 +72,23 @@ namespace Diploma.Controllers
                 return NotFound();
             }
 
-            var blogPost = await _context.Blogs.FindAsync(id);
+            var blog = await _context.Blogs.FindAsync(id);
 
-            if (blogPost == null)
+            if (blog == null)
             {
                 return NotFound();
             }
 
-            return View(blogPost);
+            return View(blog);
         }
 
         // POST: Blogs/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Content")] Blog blogPost)
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Title,Description")] Blog blog)
         {
-            if (id != blogPost.ID)
+            if (id != blog.ID)
             {
                 return NotFound();
             }
@@ -91,12 +97,12 @@ namespace Diploma.Controllers
             {
                 try
                 {
-                    _context.Update(blogPost);
+                    _context.Update(blog);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BlogPostExists(blogPost.ID))
+                    if (!BlogExists(blog.ID))
                     {
                         return NotFound();
                     }
@@ -108,10 +114,11 @@ namespace Diploma.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(blogPost);
+            return View(blog);
         }
 
         // GET: Blogs/Delete/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -119,31 +126,31 @@ namespace Diploma.Controllers
                 return NotFound();
             }
 
-            var blogPost = await _context.Blogs.FirstOrDefaultAsync(m => m.ID == id);
+            var blog = await _context.Blogs.FirstOrDefaultAsync(m => m.ID == id);
 
-            if (blogPost == null)
+            if (blog == null)
             {
                 return NotFound();
             }
 
-            return View(blogPost);
+            return View(blog);
         }
 
         // POST: Blogs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var blogPost = await _context.Blogs.FindAsync(id);
-            _context.Blogs.Remove(blogPost);
+            var blog = await _context.Blogs.FindAsync(id);
+            _context.Blogs.Remove(blog);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool BlogPostExists(int id)
+        private bool BlogExists(int id)
         {
             return _context.Blogs.Any(e => e.ID == id);
         }
     }
 }
-

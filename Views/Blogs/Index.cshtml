@@ -2,22 +2,14 @@
 
 <h1>Blog Posts</h1>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+@if (User.Identity.IsAuthenticated && User.IsInRole("Администратор"))
+{
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+}
 
 <table class="table">
-    <thead>
-        <tr>
-@*            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>*@
-            <th></th>
-        </tr>
-    </thead>
     <tbody>
         @foreach (var item in Model)
         {
@@ -29,9 +21,13 @@
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                    @Html.ActionLink("Details", "Details", new { id = item.ID })
+
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Администратор"))
+                    {
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ID })
+                        @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                    }
                 </td>
             </tr>
         }
