@@ -15,10 +15,10 @@ namespace Diploma.Controllers
         public IActionResult Index()
         {
             // Получение информации о проекте, услугах, статьях и контактах из базы данных
-            var project = _context.Projects.FirstOrDefault();
+            var project = _context.Projects.ToList();
             var services = _context.Services.ToList();
             var blogs = _context.Blogs.ToList();
-            var contacts = _context.Contacts.FirstOrDefault();
+            var contacts = _context.Contacts.ToList();
 
             // Передача данных в представление
             var viewModel = new HomeViewModel
