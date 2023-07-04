@@ -1,27 +1,31 @@
-﻿@model Diploma.Models.Contact
+﻿@model IEnumerable<Diploma.Models.Contact>
 
-<h1>Контактная информация:</h1>
+<h1>Contacts</h1>
 
-<div>
-    <h3>Address:</h3>
-    <p>@Model.Address</p>
-</div>
-
-<div>
-    <h3>Phone:</h3>
-    <p>@Model.Phone</p>
-</div>
-
-<div>
-    <h3>Email:</h3>
-    <p>@Model.Email</p>
-</div>
-
-@{
-    if (User.IsInRole("Administrator"))
-    {
-        <div>
-            <a asp-controller="Contact" asp-action="Create">Добавить контакт</a>
-        </div>
-    }
-}
+<table class="table">
+    <thead>
+        <tr>
+            <th>Address</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var contact in Model)
+        {
+            <tr>
+                <td>@contact.Address</td>
+                <td>@contact.Phone</td>
+                <td>@contact.Email</td>
+                <td>
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        @Html.ActionLink("Edit", "Edit", new { id = contact.ID })
+                        @Html.ActionLink("Delete", "Delete", new { id = contact.ID })
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
