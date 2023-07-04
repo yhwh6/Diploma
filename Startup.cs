@@ -64,6 +64,9 @@ namespace Diploma
                 endpoints.MapControllerRoute(
                     name: "user",
                     pattern: "{controller=User}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(
+                    name: "services",
+                    pattern: "{controller=Services}/{action=Edit}/{id?}");
             });
         }
     }

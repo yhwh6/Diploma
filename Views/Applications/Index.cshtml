@@ -1,4 +1,4 @@
-﻿@model List<Application>
+﻿@model List<Diploma.Models.Application>
 
 <h1>Applications</h1>
 
@@ -8,15 +8,21 @@
 
 <table class="table">
     <thead>
-@*        <tr>
+        <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                Email
+            </th>
+            <th>
+                Message
+            </th>
+            <th>
+                Status
             </th>
             <th></th>
-        </tr>*@
+        </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
@@ -26,7 +32,13 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Message)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
