@@ -23,8 +23,8 @@ namespace Diploma
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
-                    options.LoginPath = "/Account/Login";
-                    options.AccessDeniedPath = "/Account/AccessDenied";
+                    options.LoginPath = "/Accounts/Login";
+                    options.AccessDeniedPath = "/Accounts/AccessDenied";
                 });
 
             services.AddAuthorization(options =>
@@ -61,10 +61,13 @@ namespace Diploma
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute(
                     name: "account",
-                    pattern: "{controller=Account}/{action=Login}/{id?}");
+                    pattern: "{controller=Accounts}/{action=Login}/{id?}");
                 endpoints.MapControllerRoute(
                     name: "user",
-                    pattern: "{controller=User}/{action=Index}/{id?}");
+                    pattern: "{controller=Users}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(
+                    name: "contacts",
+                    pattern: "{controller=Contacts}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute(
                     name: "services",
                     pattern: "{controller=Services}/{action=Edit}/{id?}");
