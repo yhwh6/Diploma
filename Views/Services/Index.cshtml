@@ -1,43 +1,50 @@
 ﻿@model List<Service>
 
-<h1>Services</h1>
+<h1>Услуги</h1>
 
 @if (User.Identity.IsAuthenticated)
 {
     @Html.ActionLink("Create New", "Create")
 }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Title
-            </th>
-            <th>
-                Description
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        @Html.ActionLink("Edit", "Edit", new { id = item.ID })
-                        @Html.ActionLink("Details", "Details", new { id = item.ID })
-                        @Html.ActionLink("Delete", "Delete", new { id = item.ID })
-                    }
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+@foreach (var item in Model)
+{
+    <div class="spoiler">
+        <div class="spoiler-header">
+            <h3>@Html.DisplayFor(modelItem => item.Title)</h3>
+        </div>
+        <div class="spoiler-content">
+            <p>@Html.DisplayFor(modelItem => item.Description)</p>
+            @if (User.Identity.IsAuthenticated)
+            {
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID })
+                @Html.ActionLink("Details", "Details", new { id = item.ID })
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+           }
+        </div>
+    </div>
+}
+
+<style>
+    .spoiler {
+        margin-bottom: 10px;
+    }
+
+    .spoiler-header {
+        cursor: pointer;
+        background-color: #f0f0f0;
+        padding: 10px;
+    }
+
+    .spoiler-content {
+        display: none;
+        background-color: #ffffff;
+        padding: 10px;
+    }
+</style>
+
+<script>
+    $('.spoiler-header').click(function () {
+        $(this).next('.spoiler-content').slideToggle();
+    });
+</script>

@@ -31,6 +31,7 @@ namespace Diploma
             {
                 options.AddPolicy("Administrator", policy => policy.RequireRole("Administrator"));
                 options.AddPolicy("Authorized", policy => policy.RequireAuthenticatedUser());
+                options.AddPolicy("AccessRequests", policy => policy.RequireRole("Administrator"));
             });
         }
 
