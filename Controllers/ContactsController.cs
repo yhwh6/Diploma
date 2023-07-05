@@ -15,8 +15,8 @@ namespace Diploma.Controllers
 
         public IActionResult Index()
         {
-            var contacts = _context.Users.FirstOrDefault();
-            return View(contacts);
+            var contact = _context.Contacts.FirstOrDefault();
+            return View(contact);
         }
 
         [Authorize(Roles = "Administrator")]

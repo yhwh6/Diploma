@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Linq;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
 using Diploma.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Diploma.Controllers
 {
@@ -13,31 +16,46 @@ namespace Diploma.Controllers
             _context = context;
         }
 
-        // GET: /Account/Login
+        [HttpGet]
         public IActionResult Login()
         {
             return View();
         }
 
-        // POST: /Account/Login
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Login(string username, string password)
+        public async Task<IActionResult> Login(User model)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Username == username && u.Password == password);
-            if (user == null)
+            if (ModelState.IsValid)
             {
-                ModelState.AddModelError("", "Invalid username or password");
-                return View();
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == model.Username && u.Password == model.Password);
+
+                if (user != null)
+                {
+                    var claims = new[]
+                    {
+                        new Claim(ClaimTypes.Name, user.Username),
+                        new Claim(ClaimTypes.Role, user.Role)
+                    };
+
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+
+                    return RedirectToAction("Index", "Home");
+                }
+
+                ModelState.AddModelError("", "Invalid username or password.");
             }
 
-            return RedirectToAction("Index", "Diploma");
+            return View(model);
         }
 
-        // GET: /Account/Logout
-        public IActionResult Logout()
+        [HttpPost]
+        public async Task<IActionResult> Logout()
         {
-            return RedirectToAction("Index", "Diploma");
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }
