@@ -4,18 +4,20 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 using Diploma.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Diploma.Controllers
 {
-    public class AccountController : Controller
+    public class AccountsController : Controller
     {
         private readonly DiplomaContext _context;
 
-        public AccountController(DiplomaContext context)
+        public AccountsController(DiplomaContext context)
         {
             _context = context;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Login()
         {
