@@ -30,7 +30,15 @@ namespace Diploma.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Contact contact)
         {
-            return RedirectToAction(nameof(Index));
+            if (ModelState.IsValid)
+            {
+                _context.Contacts.Add(contact);
+                _context.SaveChanges();
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(contact);
         }
 
         [Authorize(Roles = "Administrator")]

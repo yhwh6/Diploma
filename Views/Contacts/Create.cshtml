@@ -2,18 +2,18 @@
 
 <h1>Создание контакта</h1>
 
-<form asp-controller="Contact" asp-action="Create" method="post">
+<form asp-controller="Contacts" asp-action="Create" method="post">
     <div>
-        <label asp-for="Address">Address:</label>
-        <input asp-for="Address" />
+        <label asp-for="Address">Адрес:</label>
+        <input asp-for="Address" class="form-control" />
     </div>
     <div>
-        <label asp-for="Phone">Phone:</label>
-        <input asp-for="Phone" />
+        <label asp-for="Phone">Телефон:</label>
+        <input asp-for="Phone" class="form-control" />
     </div>
     <div>
         <label asp-for="Email">Email:</label>
-        <input asp-for="Email" />
+        <input asp-for="Email" class="form-control" />
     </div>
     <button type="submit">Создать</button>
 </form>
