@@ -18,7 +18,6 @@ namespace Diploma.Controllers
             var project = _context.Projects.ToList();
             var services = _context.Services.ToList();
             var blogs = _context.Blogs.ToList();
-            var contacts = _context.Contacts.ToList();
 
             // Передача данных в представление
             var viewModel = new HomeViewModel
@@ -26,7 +25,6 @@ namespace Diploma.Controllers
                 Projects = project,
                 Services = services,
                 Blogs = blogs,
-                Contacts = contacts
             };
 
             return View(viewModel);
