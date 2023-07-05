@@ -8,7 +8,6 @@ namespace Diploma.Models
         public DbSet<Service> Services { get; set; }
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<Application> Applications { get; set; }
-        public DbSet<Contact> Contacts { get; set; }
         public DbSet<User> Users { get; set; }
 
         public DiplomaContext(DbContextOptions<DiplomaContext> options) : base(options)

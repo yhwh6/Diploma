@@ -1,27 +1,16 @@
-﻿@model Diploma.Models.Contact
-
-<h1>Контактная информация:</h1>
+﻿<h1>Контактная информация:</h1>
 
 <div>
-    <h3>Address:</h3>
-    <p>@Model.Address</p>
+    <h5>Адресс:</h5>
+    <p>Швейца́рская Конфедера́ция, Бёрн</p>
 </div>
 
 <div>
-    <h3>Phone:</h3>
-    <p>@Model.Phone</p>
+    <h5>Телефон:</h5
+    <p>+ 41 111 44 11</p>
 </div>
 
 <div>
-    <h3>Email:</h3>
-    <p>@Model.Email</p>
+    <h5>Email:</h5>
+    <p>swiss@test.com</p>
 </div>
-
-@{
-    if (User.IsInRole("Administrator"))
-    {
-        <div>
-            <a asp-controller="Contact" asp-action="Create">Добавить контакт</a>
-        </div>
-    }
-}
