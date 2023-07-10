@@ -10,7 +10,7 @@ namespace Diploma.Models
         [Required]
         public string Password { get; set; }
         [Required]
-        public string Role { get; set; }
+        public UserRole Role { get; set; }
     }
 
     public enum UserRole

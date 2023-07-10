@@ -23,7 +23,7 @@ namespace Diploma.Models
                     ID = 1,
                     Username = "admin",
                     Password = "admin",
-                    Role = "Administrator"
+                    Role = UserRole.Administrator
                 });
         }
     }

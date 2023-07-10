@@ -7,12 +7,10 @@ public class Program
     {
         var host = CreateHostBuilder(args).Build();
 
-        // Seed the database
         using (var scope = host.Services.CreateScope())
         {
             var services = scope.ServiceProvider;
             var dbContext = services.GetRequiredService<DiplomaContext>();
-            DbInitializer.Seed(dbContext);
         }
 
         host.Run();

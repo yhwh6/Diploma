@@ -36,7 +36,6 @@ namespace Diploma.Controllers
                     var claims = new[]
                     {
                 new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Role, user.Role)
             };
 
                     var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -48,16 +47,6 @@ namespace Diploma.Controllers
                 }
 
                 ModelState.AddModelError("", "Invalid username or password.");
-            }
-
-            var createdUser = await _context.Users.FirstOrDefaultAsync(u => u.Username == model.Username);
-            if (createdUser != null)
-            {
-                Console.WriteLine("User created: " + createdUser.Username);
-            }
-            else
-            {
-                Console.WriteLine("User creation failed.");
             }
 
             return View(model);
