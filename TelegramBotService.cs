@@ -5,7 +5,7 @@ using Telegram.Bot.Polling;
 
 public class TelegramBotService
 {
-    private static ITelegramBotClient bot;
+    private readonly ITelegramBotClient bot;
     private readonly DiplomaContext dbContext;
 
     public TelegramBotService(DiplomaContext dbContext)
