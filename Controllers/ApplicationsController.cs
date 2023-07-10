@@ -1,5 +1,4 @@
-﻿using Azure.Core;
-using Diploma.Models;
+﻿using Diploma.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

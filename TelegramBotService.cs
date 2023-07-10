@@ -1,57 +1,89 @@
-﻿using Telegram.Bot.Types;
-using Telegram.Bot;
-using Telegram.Bot.Types.Enums;
+﻿using Telegram.Bot;
+using Telegram.Bot.Types;
 using Diploma.Models;
-
+using Telegram.Bot.Polling;
 
 public class TelegramBotService
 {
-    private readonly TelegramBotClient botClient;
+    private static ITelegramBotClient bot;
     private readonly DiplomaContext dbContext;
 
-    public TelegramBotService(string botToken, DiplomaContext dbContext)
+    public TelegramBotService(DiplomaContext dbContext)
     {
-        botClient = new TelegramBotClient(botToken);
+        string token = System.IO.File.ReadAllText(@"token.txt");
+        bot = new TelegramBotClient(token);
         this.dbContext = dbContext;
 
-/*        botClient.OnMessage += BotClient_OnMessage;
-        botClient.StartReceiving();*/
+        var cts = new CancellationTokenSource();
+        var cancellationToken = cts.Token;
+        var receiverOptions = new ReceiverOptions
+        {
+            AllowedUpdates = { },
+        };
+        bot.StartReceiving(
+            HandleUpdateAsync,
+            HandleErrorAsync,
+            receiverOptions,
+            cancellationToken
+        );
     }
 
-    private async void BotClient_OnMessage(object sender, Update update)
+    public static async Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
     {
-        Message message = update.Message;
+        await botClient.SendTextMessageAsync(exception.Message, "Error", cancellationToken: cancellationToken);
+    }
 
-        if (message.Type == MessageType.Text)
+    public async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
+    {
+        var message = update.Message;
+
+        switch (message.Type)
         {
-            string responseMessage = string.Empty;
+            case Telegram.Bot.Types.Enums.MessageType.Text:
+                {
+                    string responseMessage = string.Empty;
 
-            switch (message.Text.ToLower())
-            {
-                case "/contacts":
-                    responseMessage = GetContactInfo();
-                    break;
-                case "/projects":
-                    responseMessage = GetProjectList();
-                    break;
-                case "/blogs":
-                    responseMessage = GetBlogList();
-                    break;
-                case "/apply":
-                    responseMessage = "Please provide your name, email, and message in the format '/apply name email message'.";
-                    break;
-                default:
-                    if (message.Text.ToLower().StartsWith("/apply"))
+                    switch (message.Text.ToLower())
                     {
-                        responseMessage = ProcessApplication(message.Text);
-                    }
-                    break;
-            }
+                        case "/contacts":
+                            responseMessage = GetContactInfo();
+                            break;
 
-            if (!string.IsNullOrEmpty(responseMessage))
-            {
-                await botClient.SendTextMessageAsync(message.Chat.Id, responseMessage);
-            }
+                        case "/services":
+                            responseMessage = GetServiceList();
+                            break;
+
+                        case "/projects":
+                            responseMessage = GetProjectList();
+                            break;
+
+                        case "/blogs":
+                            responseMessage = GetBlogList();
+                            break;
+
+                        case "/apply":
+                            responseMessage = "Please provide your name, email, and message in the format '/apply name email message'.";
+                            break;
+
+                        default:
+                            if (message.Text.ToLower().StartsWith("/apply"))
+                            {
+                                responseMessage = ProcessApplication(message.Text);
+                            }
+                            break;
+                    }
+
+                    if (!string.IsNullOrEmpty(responseMessage))
+                    {
+                        await botClient.SendTextMessageAsync(message.Chat.Id, responseMessage);
+                    }
+
+                    break;
+                }
+
+            default:
+                await botClient.SendTextMessageAsync(message.Chat, "Меня ещё не научили работать с таким типом данных *sadface*", cancellationToken: cancellationToken);
+                break;
         }
     }
 
@@ -61,6 +93,24 @@ public class TelegramBotService
             Адрес: Швейца́рская Конфедера́ция, Бёрн
             Телефон: + 41 111 44 11
             Email: swiss@test.com";
+    }
+    private string GetServiceList()
+    {
+        var services = dbContext.Services.ToList();
+
+        if (services.Any())
+        {
+            string response = "Список услуг:\n";
+
+            foreach (var service in services)
+            {
+                response += $"- {service.Title}\n";
+            }
+
+            return response;
+        }
+
+        return "Нет доступных услуг.";
     }
 
     private string GetProjectList()

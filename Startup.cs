@@ -30,8 +30,6 @@ namespace Diploma
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("Administrator", policy => policy.RequireRole("Administrator"));
-                options.AddPolicy("Authorized", policy => policy.RequireAuthenticatedUser());
-                options.AddPolicy("AccessRequests", policy => policy.RequireRole("Administrator"));
             });
         }
 
@@ -51,6 +49,8 @@ namespace Diploma
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
